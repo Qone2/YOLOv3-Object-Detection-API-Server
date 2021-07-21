@@ -89,7 +89,7 @@ def get_detections():
         cv2.imwrite(output_path + 'detection' + str(num) + '.jpg', img)
         print('output saved to: {}'.format(output_path + 'detection' + str(num) + '.jpg'))
 
-    #remove temporary images
+    # remove temporary images
     for name in image_names:
         os.remove(name)
     try:
@@ -127,7 +127,7 @@ def get_image():
     _, img_encoded = cv2.imencode('.png', img)
     response = img_encoded.tostring()
     
-    #remove temporary image
+    # remove temporary image
     os.remove(image_name)
 
     try:
@@ -159,7 +159,6 @@ def get_detections_by_url_list():
             abort(500)
         raw_images.append(img_raw)
         
-    
     # create list for final response
     response = []
 
@@ -190,6 +189,7 @@ def get_detections_by_url_list():
         })
 
     return jsonify({"response":response}), 200
+
 
 if __name__ == '__main__':
     app.run(debug=True, host = '0.0.0.0', port=5000)
