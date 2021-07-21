@@ -210,3 +210,6 @@ detections/*
 # data folder
 data/helpers
 data/video
+
+# idea
+.idea
