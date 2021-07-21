@@ -40,8 +40,8 @@ print('classes loaded')
 app = Flask(__name__)
 
 # API that returns JSON with classes found in images
-@app.route('/detections', methods=['POST'])
-def get_detections():
+@app.route('/detections/by-image-files', methods=['POST'])
+def get_detections_by_image_files():
     raw_images = []
     images = request.files.getlist("images")
     image_names = []
@@ -98,8 +98,8 @@ def get_detections():
         abort(404)
 
 # API that returns image with detections on it
-@app.route('/image', methods= ['POST'])
-def get_image():
+@app.route('/image/by-image-file', methods= ['POST'])
+def get_image_by_image_file():
     image = request.files["images"]
     image_name = image.filename
     image.save(os.path.join(os.getcwd(), image_name))
