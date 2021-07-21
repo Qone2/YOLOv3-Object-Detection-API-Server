@@ -212,5 +212,11 @@ detections/*
 data/helpers
 data/video
 
+!data/images
+data/images/*
+!data/images/dog.jpg
+!data/images/meme.jpg
+!data/images/office.jpg
+
 # idea
 .idea
