@@ -206,6 +206,7 @@ weights/*
 !detections
 detections/*
 !detections/.gitkeep
+!detections/detection.jpg
 
 # data folder
 data/helpers
