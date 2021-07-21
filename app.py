@@ -10,6 +10,7 @@ from yolov3_tf2.dataset import transform_images, load_tfrecord_dataset
 from yolov3_tf2.utils import draw_outputs
 from flask import Flask, request, Response, jsonify, send_from_directory, abort
 import os
+import requests
 
 # customize your API through the following parameters
 classes_path = './data/labels/coco.names'
@@ -133,5 +134,62 @@ def get_image():
         return Response(response=response, status=200, mimetype='image/png')
     except FileNotFoundError:
         abort(404)
+
+# API that returns JSON with classes found in images from url list
+@app.route('/detections/by-url-list', methods=['POST'])
+def get_detections_by_url_list():
+    raw_images = []
+    image_urls = request.get_json()["images"]
+    if not isinstance(image_urls, list):
+        abort(400, "can't find image list")
+    image_names = []
+    for i, image_url in enumerate(image_urls):
+        image_name = "Image" + str(i + 1)
+        image_names.append(image_name)
+        try:
+            img_raw = tf.image.decode_image(
+                requests.get(image_url).content, channels=3)
+        except tf.errors.InvalidArgumentError:
+            abort(404, "it is not image url or that image is an unsupported format. try jpg or png")
+        except requests.exceptions.MissingSchema:
+            abort(400, "it is not url form")
+        except Exception as e:
+            print(e.__class__)
+            print(e)
+            abort(500)
+        raw_images.append(img_raw)
+        
+    
+    # create list for final response
+    response = []
+
+    for j in range(len(raw_images)):
+        # create list of responses for current image
+        responses = []
+        raw_img = raw_images[j]
+        img = tf.expand_dims(raw_img, 0)
+        img = transform_images(img, size)
+
+        t1 = time.time()
+        boxes, scores, classes, nums = yolo(img)
+        t2 = time.time()
+        print('time: {}'.format(t2 - t1))
+
+        print('detections:')
+        for i in range(nums[0]):
+            print('\t{}, {}, {}'.format(class_names[int(classes[0][i])],
+                                            np.array(scores[0][i]),
+                                            np.array(boxes[0][i])))
+            responses.append({
+                "class": class_names[int(classes[0][i])],
+                "confidence": float("{0:.2f}".format(np.array(scores[0][i])*100))
+            })
+        response.append({
+            "image": image_names[j],
+            "detections": responses
+        })
+
+    return jsonify({"response":response}), 200
+
 if __name__ == '__main__':
     app.run(debug=True, host = '0.0.0.0', port=5000)
