@@ -39,6 +39,7 @@ print('classes loaded')
 # Initialize Flask application
 app = Flask(__name__)
 
+
 # API that returns JSON with classes found in images
 @app.route('/detections/by-image-files', methods=['POST'])
 def get_detections_by_image_files():
@@ -49,8 +50,15 @@ def get_detections_by_image_files():
         image_name = image.filename
         image_names.append(image_name)
         image.save(os.path.join(os.getcwd(), image_name))
-        img_raw = tf.image.decode_image(
-            open(image_name, 'rb').read(), channels=3)
+        try:
+            img_raw = tf.image.decode_image(
+                open(image_name, 'rb').read(), channels=3)
+        except tf.errors.InvalidArgumentError:
+            abort(404, "it is not an image file or image file is an unsupported format. try jpg or png")
+        except Exception as e:
+            print(e.__class__)
+            print(e)
+            abort(500)
         raw_images.append(img_raw)
         
     num = 0
@@ -62,7 +70,7 @@ def get_detections_by_image_files():
         # create list of responses for current image
         responses = []
         raw_img = raw_images[j]
-        num+=1
+        num += 1
         img = tf.expand_dims(raw_img, 0)
         img = transform_images(img, size)
 
@@ -97,14 +105,22 @@ def get_detections_by_image_files():
     except FileNotFoundError:
         abort(404)
 
+
 # API that returns image with detections on it
 @app.route('/image/by-image-file', methods= ['POST'])
 def get_image_by_image_file():
     image = request.files["images"]
     image_name = image.filename
     image.save(os.path.join(os.getcwd(), image_name))
-    img_raw = tf.image.decode_image(
-        open(image_name, 'rb').read(), channels=3)
+    try:
+        img_raw = tf.image.decode_image(
+            open(image_name, 'rb').read(), channels=3)
+    except tf.errors.InvalidArgumentError:
+        abort(404, "it is not an image file or image file is an unsupported format. try jpg or png")
+    except Exception as e:
+        print(e.__class__)
+        print(e)
+        abort(500)
     img = tf.expand_dims(img_raw, 0)
     img = transform_images(img, size)
 
@@ -134,6 +150,7 @@ def get_image_by_image_file():
         return Response(response=response, status=200, mimetype='image/png')
     except FileNotFoundError:
         abort(404)
+
 
 # API that returns JSON with classes found in images from url list
 @app.route('/detections/by-url-list', methods=['POST'])
@@ -192,4 +209,4 @@ def get_detections_by_url_list():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host = '0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
