@@ -224,7 +224,7 @@ axios(config)
 });
 ```
 
-응답 예시:
+응답 예시:<br/>
 ![response](detections/detection.jpg)
 
 <br/>
