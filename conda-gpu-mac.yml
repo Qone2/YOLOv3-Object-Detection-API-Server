@@ -1,0 +1,17 @@
+name: yolov3-gpu
+
+channels:
+  - apple
+dependencies:
+  - tensorflow-deps
+  - matplotlib
+  - opencv
+  - lxml
+  - tqdm
+  - flask
+  - seaborn
+  - pillow
+  - waitress
+  - pip:
+      - tensorflow-macos
+      - tensorflow-metal
