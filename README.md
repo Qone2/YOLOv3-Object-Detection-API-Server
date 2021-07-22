@@ -229,6 +229,13 @@ axios(config)
 
 <br/>
 
+## TODO
+* [ ] Custom weights 적용
+* [ ] YOLOv4 적용
+* [ ] v4 용 custom weight 적용
+
+<br/>
+
 ## Reference
 이곳에서 영향을 많이 받았고, 필요에 맞게 수정하였습니다.
 * https://github.com/theAIGuysCode/Object-Detection-API
