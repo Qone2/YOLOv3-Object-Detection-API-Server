@@ -16,7 +16,13 @@ conda activate yolov3-cpu
 # Tensorflow GPU
 conda env create -f conda-gpu.yml
 conda activate yolov3-gpu
+
+# For apple silicon mac
+conda env create -f conda-gpu-mac.yml
+conda activate yolov3-gpu
 ```
+apple silicon 맥으로 하려면, [여기](https://developer.apple.com/metal/tensorflow-plugin/)
+를 참고해서 miniforge를 설치하고 위의 명령어를 수행합니다.
 
 ### Weights
 가중치 파일은 일단은 coco dataset 으로 미리 학습된 모델을 받습니다.  
@@ -32,10 +38,16 @@ python load_weights.py
 ```
 
 ### Run
-flask 서버 실행.
+flask 서버 실행 (Development 단계).
 ```shell
 python app.py
 ```
+
+waitress 서버 실행 (Production 단계).
+```shell
+python waitress-server.py
+```
+참고로 apple silicon mac에서는 app.py를 통해서는 정상실행되지 않고 waitress-server로 실행해야 합니다.
 
 <br/>
 
