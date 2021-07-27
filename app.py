@@ -160,15 +160,15 @@ def get_detections_by_url_list():
     if not isinstance(image_urls, list):
         abort(400, "can't find image list")
     image_names = []
-    custom_header = {
-        "user-agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36"
+    custom_headers = {
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36"
     }
     for i, image_url in enumerate(image_urls):
         image_name = "Image" + str(i + 1)
         image_names.append(image_name)
         try:
             img_raw = tf.image.decode_image(
-                requests.get(image_url).content, channels=3, header=custom_header)
+                requests.get(image_url, headers=custom_headers).content, channels=3)
         except tf.errors.InvalidArgumentError:
             abort(404, "it is not image url or that image is an unsupported format. try jpg or png")
         except requests.exceptions.MissingSchema:
