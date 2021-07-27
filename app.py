@@ -101,7 +101,7 @@ def get_detections_by_image_files():
     for name in image_names:
         os.remove(name)
     try:
-        return jsonify({"response":response}), 200
+        return jsonify({"response": response}), 200
     except FileNotFoundError:
         abort(404)
 
@@ -178,6 +178,8 @@ def get_detections_by_url_list():
             print(e)
             abort(500)
         raw_images.append(img_raw)
+
+    num = 0
         
     # create list for final response
     response = []
@@ -186,6 +188,7 @@ def get_detections_by_url_list():
         # create list of responses for current image
         responses = []
         raw_img = raw_images[j]
+        num += 1
         img = tf.expand_dims(raw_img, 0)
         img = transform_images(img, size)
 
@@ -207,8 +210,12 @@ def get_detections_by_url_list():
             "image": image_names[j],
             "detections": responses
         })
+        img = cv2.cvtColor(raw_img.numpy(), cv2.COLOR_RGB2BGR)
+        img = draw_outputs(img, (boxes, scores, classes, nums), class_names)
+        cv2.imwrite(output_path + 'detection' + str(num) + '.jpg', img)
+        print('output saved to: {}'.format(output_path + 'detection' + str(num) + '.jpg'))
 
-    return jsonify({"response":response}), 200
+    return jsonify({"response": response}), 200
 
 
 if __name__ == '__main__':
