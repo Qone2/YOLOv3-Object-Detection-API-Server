@@ -59,8 +59,8 @@ python waitress-server.py
 ```json
 {
     "images" : [
-        "https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/219194203_4048726531863394_2564241120347390836_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=ozDT8pvlE1QAX9G0pPH&edm=AP_V10EBAAAA&ccb=7-4&oh=b6b5d2c2a7649896c7576e3a82ed5930&oe=60FE346B&_nc_sid=4f375e",
-        "https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/219798075_800281433987925_562346442929147322_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=1&_nc_ohc=zV6m3407S4UAX-D0Q0N&edm=AP_V10EBAAAA&ccb=7-4&oh=4aa5f11088554cbb058eeb1778510415&oe=60FD7652&_nc_sid=4f375e"
+        "https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/222098946_800922067290689_4000082563789988691_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=105&_nc_ohc=IkQvX8I9P7wAX_7pTHS&edm=ABZsPhsBAAAA&ccb=7-4&oh=1aa5bb16e59cfad5c00e749f6574f472&oe=61074FB8&_nc_sid=4efc9f&ig_cache_key=MjYyNTMwMTQ0ODY2NzAwNTk1NA%3D%3D.2-ccb7-4",
+        "https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/221220837_1710894532432062_954984199605727897_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=nu4ORRwSGmQAX9gAc1Q&edm=ABZsPhsBAAAA&ccb=7-4&oh=e468f39a2ad4e820a4298fbd1f1c70cb&oe=610627EA&_nc_sid=4efc9f&ig_cache_key=MjYyMjM4MTQ4MjUzNjAyMDY2OA%3D%3D.2-ccb7-4"
         ]
 }
 ```
@@ -73,23 +73,7 @@ python waitress-server.py
             "detections": [
                 {
                     "class": "dog",
-                    "confidence": 99.93
-                },
-                {
-                    "class": "teddy bear",
-                    "confidence": 99.78
-                },
-                {
-                    "class": "laptop",
-                    "confidence": 96.11
-                },
-                {
-                    "class": "chair",
-                    "confidence": 87.97
-                },
-                {
-                    "class": "cup",
-                    "confidence": 59.49
+                    "confidence": 99.23
                 }
             ],
             "image": "Image1"
@@ -97,8 +81,8 @@ python waitress-server.py
         {
             "detections": [
                 {
-                    "class": "teddy bear",
-                    "confidence": 97.35
+                    "class": "dog",
+                    "confidence": 91.02
                 }
             ],
             "image": "Image2"
