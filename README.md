@@ -59,8 +59,8 @@ python waitress-server.py
 ```json
 {
     "images" : [
-        "https://www.instagram.com/p/CRu8cLAH_1b/media/?size=l",
-        "https://www.instagram.com/p/CRkkhB8Hyq8/media/?size=l"
+        "https://images.unsplash.com/photo-1627662055794-94ab33f5913a",
+        "https://images.unsplash.com/photo-1622495506073-56b1152a010c"
         ]
 }
 ```
@@ -72,8 +72,68 @@ python waitress-server.py
         {
             "detections": [
                 {
-                    "class": "dog",
-                    "confidence": 99.54
+                    "class": "diningtable",
+                    "confidence": 99.8
+                },
+                {
+                    "class": "person",
+                    "confidence": 99.71
+                },
+                {
+                    "class": "bowl",
+                    "confidence": 99.23
+                },
+                {
+                    "class": "person",
+                    "confidence": 98.21
+                },
+                {
+                    "class": "bowl",
+                    "confidence": 98.17
+                },
+                {
+                    "class": "bowl",
+                    "confidence": 97.21
+                },
+                {
+                    "class": "cup",
+                    "confidence": 97.2
+                },
+                {
+                    "class": "bottle",
+                    "confidence": 93.96
+                },
+                {
+                    "class": "person",
+                    "confidence": 82.74
+                },
+                {
+                    "class": "bottle",
+                    "confidence": 81.39
+                },
+                {
+                    "class": "cup",
+                    "confidence": 81.04
+                },
+                {
+                    "class": "bowl",
+                    "confidence": 80.9
+                },
+                {
+                    "class": "fork",
+                    "confidence": 66.51
+                },
+                {
+                    "class": "bottle",
+                    "confidence": 60.97
+                },
+                {
+                    "class": "bottle",
+                    "confidence": 59.96
+                },
+                {
+                    "class": "vase",
+                    "confidence": 50.08
                 }
             ],
             "image": "Image1"
@@ -81,8 +141,36 @@ python waitress-server.py
         {
             "detections": [
                 {
-                    "class": "dog",
-                    "confidence": 93.82
+                    "class": "person",
+                    "confidence": 99.95
+                },
+                {
+                    "class": "person",
+                    "confidence": 99.93
+                },
+                {
+                    "class": "car",
+                    "confidence": 98.42
+                },
+                {
+                    "class": "car",
+                    "confidence": 92.53
+                },
+                {
+                    "class": "bottle",
+                    "confidence": 87.44
+                },
+                {
+                    "class": "car",
+                    "confidence": 77.97
+                },
+                {
+                    "class": "bottle",
+                    "confidence": 71.37
+                },
+                {
+                    "class": "car",
+                    "confidence": 70.21
                 }
             ],
             "image": "Image2"
