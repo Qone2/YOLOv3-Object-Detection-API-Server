@@ -50,6 +50,7 @@ def get_detections_by_image_files():
         image_name = image.filename
         image_names.append(image_name)
         image.save(os.path.join(os.getcwd(), image_name))
+        img_raw = None
         try:
             img_raw = tf.image.decode_image(
                 open(image_name, 'rb').read(), channels=3)
@@ -112,6 +113,7 @@ def get_image_by_image_file():
     image = request.files["images"]
     image_name = image.filename
     image.save(os.path.join(os.getcwd(), image_name))
+    img_raw = None
     try:
         img_raw = tf.image.decode_image(
             open(image_name, 'rb').read(), channels=3)
@@ -166,6 +168,7 @@ def get_detections_by_url_list():
     for i, image_url in enumerate(image_urls):
         image_name = "Image" + str(i + 1)
         image_names.append(image_name)
+        img_raw = None
         try:
             img_raw = tf.image.decode_image(
                 requests.get(image_url, headers=custom_headers).content, channels=3)
