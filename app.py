@@ -11,6 +11,7 @@ from yolov3_tf2.utils import draw_outputs
 from flask import Flask, request, Response, jsonify, send_from_directory, abort
 import os
 import requests
+import json
 
 # customize your API through the following parameters
 classes_path = './data/labels/coco.names'
@@ -103,7 +104,7 @@ def get_detections_by_image_files():
     for name in image_names:
         os.remove(name)
     try:
-        return jsonify({"response": response}), 200
+        return Response(response=json.dumps({"response": response}), mimetype="application/json")
     except FileNotFoundError:
         abort(404)
 
@@ -220,7 +221,7 @@ def get_detections_by_url_list():
         cv2.imwrite(output_path + 'detection' + str(num) + '.jpg', img)
         print('output saved to: {}'.format(output_path + 'detection' + str(num) + '.jpg'))
 
-    return jsonify({"response": response}), 200
+    return Response(response=json.dumps({"response": response}), mimetype="application/json")
 
 
 if __name__ == '__main__':
