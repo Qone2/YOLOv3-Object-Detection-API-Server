@@ -87,7 +87,8 @@ def get_detections_by_image_files():
                                             np.array(boxes[0][i])))
             responses.append({
                 "class": class_names[int(classes[0][i])],
-                "confidence": float("{0:.2f}".format(np.array(scores[0][i])*100))
+                "confidence": float("{0:.2f}".format(np.array(scores[0][i])*100)),
+                "box": np.array(boxes[0][i]).tolist()
             })
         response.append({
             "image": image_names[j],
@@ -207,7 +208,8 @@ def get_detections_by_url_list():
                                             np.array(boxes[0][i])))
             responses.append({
                 "class": class_names[int(classes[0][i])],
-                "confidence": float("{0:.2f}".format(np.array(scores[0][i])*100))
+                "confidence": float("{0:.2f}".format(np.array(scores[0][i])*100)),
+                "box": np.array(boxes[0][i]).tolist()
             })
         response.append({
             "image": image_names[j],
