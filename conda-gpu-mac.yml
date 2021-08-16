@@ -12,6 +12,7 @@ dependencies:
   - seaborn
   - pillow
   - waitress
+  - paste
   - pip:
       - tensorflow-macos
       - tensorflow-metal
