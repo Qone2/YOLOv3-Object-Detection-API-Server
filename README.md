@@ -1,7 +1,8 @@
-# real-matzip-backend-detection-api-server
-리얼맛집 프로젝트에서 detection api 서버 기능을 담당하는 프로젝트.  
+# object-detection-api-server
+object detection api 서버 프로젝트.  
 사진을 올리면 디텍션 결과를 json형태로 반환.  
-YOLOv3와 Flask로 구성되어 있습니다.
+YOLOv3와 Flask로 구성되어 있습니다.  
+기존 클론한 프로젝트(https://github.com/theAIGuysCode/Object-Detection-API) 에서 사진을 전송 하지 않고, 사진파일의 url만 전송하여 detection 하는 기능을 추가 하고, 몇가지 edge case를 다듬었습니다.
 
 <br/>
 
@@ -26,15 +27,31 @@ apple silicon 맥으로 하려면, [여기](https://developer.apple.com/metal/te
 
 ### Weights
 가중치 파일은 일단은 coco dataset 으로 미리 학습된 모델을 받습니다.  
-나중에 커스텀 모델도 올릴 예정입니다.  
+두번째는 제가 학습시킨 모델입니다. 각자 darknet을 이용하여 학습한 모델을 사용할 수 있습니다.
 ```shell
+# pretrained weights
 wget https://pjreddie.com/media/files/yolov3.weights -O weights/yolov3.weights
+
+# custom weights (for food detection)
+wget https://github.com/Qone2/object-detection-api-server/releases/download/v1.0.0/yolov3-food_6000.weights
 ```
+
+### Custom model
+커스텀 모델을 사용하려면 3가지 사항이 필요합니다.
+1. custom weights file
+2. 라벨파일 (./data/labels/***.names)
+3. app.py에 파라미터 변환
+    * classes_path 값이 적절한 .names파일 주소로 되어있어야합니다.
+    * num_classes 값이 트레인된 모델의 클래스값과 같아야합니다.
+
 
 ### Convert
 가중치 파일을 텐서플로 모델로 변환하여 저장합니다.
 ```shell
 python load_weights.py
+
+# for custom weights
+python load_seights.py --weights ./weights/yolov3-custom.weights --num_classes 1
 ```
 
 ### Run
@@ -506,12 +523,16 @@ axios(config)
 <br/>
 
 ## TODO
-* [ ] Custom weights 적용
+* [x] Custom weights 적용
 * [ ] YOLOv4 적용
 * [ ] v4 용 custom weight 적용
 
 <br/>
 
 ## Reference
+여기에서 모델을 학습 할 수 있습니다.
+* https://github.com/AlexeyAB/darknet
+* https://pjreddie.com/darknet/yolo/
+
 이곳에서 영향을 많이 받았고, 필요에 맞게 수정하였습니다.
 * https://github.com/theAIGuysCode/Object-Detection-API
