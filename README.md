@@ -51,7 +51,7 @@ wget https://github.com/Qone2/object-detection-api-server/releases/download/v1.0
 python load_weights.py
 
 # for custom weights
-python load_seights.py --weights ./weights/yolov3-custom.weights --num_classes 1
+python load_weights.py --weights ./weights/yolov3-custom.weights --num_classes 1
 ```
 
 ### Run
