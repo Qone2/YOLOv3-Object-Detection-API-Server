@@ -224,5 +224,59 @@ def get_detections_by_url_list():
     return Response(response=json.dumps({"response": response}), mimetype="application/json")
 
 
+# API that returns image with detections on it from url
+@app.route('/image/by-url', methods= ['POST'])
+def get_image_by_url_list():
+    image_urls = request.get_json()["images"]
+    if not isinstance(image_urls, list):
+        abort(400, "can't find image list")
+    image_names = []
+    custom_headers = {
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36"
+    }
+
+    image_name = "Image" + str(1)
+    image_names.append(image_name)
+    img_raw = None
+    try:
+        img_raw = tf.image.decode_image(
+            requests.get(image_urls[0], headers=custom_headers).content, channels=3)
+    except tf.errors.InvalidArgumentError:
+        abort(404, "it is not image url or that image is an unsupported format. try jpg or png")
+    except requests.exceptions.MissingSchema:
+        abort(400, "it is not url form")
+    except Exception as e:
+        print(e.__class__)
+        print(e)
+        abort(500)
+
+    img = tf.expand_dims(img_raw, 0)
+    img = transform_images(img, size)
+
+    t1 = time.time()
+    boxes, scores, classes, nums = yolo(img)
+    t2 = time.time()
+    print('time: {}'.format(t2 - t1))
+
+    print('detections:')
+    for i in range(nums[0]):
+        print('\t{}, {}, {}'.format(class_names[int(classes[0][i])],
+                                    np.array(scores[0][i]),
+                                    np.array(boxes[0][i])))
+    img = cv2.cvtColor(img_raw.numpy(), cv2.COLOR_RGB2BGR)
+    img = draw_outputs(img, (boxes, scores, classes, nums), class_names)
+    cv2.imwrite(output_path + 'detection.jpg', img)
+    print('output saved to: {}'.format(output_path + 'detection.jpg'))
+
+    # prepare image for response
+    _, img_encoded = cv2.imencode('.png', img)
+    response = img_encoded.tostring()
+
+    try:
+        return Response(response=response, status=200, mimetype='image/png')
+    except FileNotFoundError:
+        abort(404)
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
