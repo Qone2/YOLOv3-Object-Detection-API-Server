@@ -235,8 +235,8 @@ def get_detections_by_url_list():
 
 
 # API that returns image with detections on it from url
-@app.route('/image/by-url', methods= ['POST'])
-def get_image_by_url_list():
+@app.route('/image/by-url', methods=['POST'])
+def get_image_by_url():
     image_urls = request.get_json()["images"]
     if not isinstance(image_urls, list):
         abort(400, "can't find image list")
