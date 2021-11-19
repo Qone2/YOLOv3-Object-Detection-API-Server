@@ -48,16 +48,22 @@ def get_detections_by_image_files():
     images = request.files.getlist("images")
     image_names = []
     for image in images:
-        image_name = image.filename
+        image_name = "./temp/" + image.filename
         image_names.append(image_name)
-        image.save(os.path.join(os.getcwd(), image_name))
+        image.save(os.path.join(os.getcwd(), image_name[2:]))
         img_raw = None
         try:
             img_raw = tf.image.decode_image(
                 open(image_name, 'rb').read(), channels=3)
         except tf.errors.InvalidArgumentError:
+            # remove temporary images
+            for name in image_names:
+                os.remove(name)
             abort(404, "it is not an image file or image file is an unsupported format. try jpg or png")
         except Exception as e:
+            # remove temporary images
+            for name in image_names:
+                os.remove(name)
             print(e.__class__)
             print(e)
             abort(500)
@@ -92,7 +98,7 @@ def get_detections_by_image_files():
                 "box": np.array(boxes[0][i]).tolist()
             })
         response.append({
-            "image": image_names[j],
+            "image": image_names[j][7:],
             "detections": responses
         })
         img = cv2.cvtColor(raw_img.numpy(), cv2.COLOR_RGB2BGR)
@@ -113,15 +119,19 @@ def get_detections_by_image_files():
 @app.route('/image/by-image-file', methods= ['POST'])
 def get_image_by_image_file():
     image = request.files["images"]
-    image_name = image.filename
-    image.save(os.path.join(os.getcwd(), image_name))
+    image_name = "./temp/" + image.filename
+    image.save(os.path.join(os.getcwd(), image_name[2:]))
     img_raw = None
     try:
         img_raw = tf.image.decode_image(
             open(image_name, 'rb').read(), channels=3)
     except tf.errors.InvalidArgumentError:
+        # remove temporary image
+        os.remove(image_name)
         abort(404, "it is not an image file or image file is an unsupported format. try jpg or png")
     except Exception as e:
+        # remove temporary image
+        os.remove(image_name)
         print(e.__class__)
         print(e)
         abort(500)
