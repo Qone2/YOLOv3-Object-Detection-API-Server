@@ -72,7 +72,7 @@ python waitress-server.py
 ### Detections by url list (POST http://localhost:5000/detections/by-url-list)
 이미지 url 리스트를 json 형태로 body 에 담아 요청하면 detection 결과를 json 형태로 반환합니다.
 
-요청 예시:
+#### 요청 예시:
 ```json
 {
     "images" : [
@@ -82,7 +82,7 @@ python waitress-server.py
 }
 ```
 
-응답 예시:
+#### 응답 예시:
 ```json
 {
     "response": [
@@ -349,7 +349,7 @@ key 값은 "images"로 주어야 합니다.
 
 postman 서비스를 이용하면 요청을 테스트 하기도 쉽고, 각 언어에 맞는 코드로 알려주기도 합니다.
 
-요청 예시 (python.requests):
+#### 요청 예시 (python.requests):
 ```python
 import requests
 
@@ -366,7 +366,7 @@ response = requests.request("POST", url, headers=headers, data=payload, files=fi
 
 print(response.text)
 ```
-응답 예시:
+#### 응답 예시:
 ```json
 {
     "response": [
@@ -491,7 +491,7 @@ key 값은 "images"로 주어야 합니다.
 
 postman 서비스를 이용하면 요청을 테스트 하기도 쉽고, 각 언어에 맞는 코드로 알려주기도 합니다.
 
-요청 예시(node.js axios):
+#### 요청 예시(node.js axios):
 ```javascript
 var axios = require('axios');
 var FormData = require('form-data');
@@ -517,15 +517,31 @@ axios(config)
 });
 ```
 
-응답 예시:<br/>
+#### 응답 예시:<br/>
+![response](detections/detection.jpg)
+
+<br/>
+
+### Image by image url (POST http://localhost:5000/image/by-url)
+
+#### 요청 예시 json:
+```json
+{
+    "images" : [
+            "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920"
+        ]
+}
+```
+
+#### 응답 예시:<br/>
 ![response](detections/detection.jpg)
 
 <br/>
 
 ## TODO
 * [x] Custom weights 적용
-* [ ] YOLOv4 적용
-* [ ] v4 용 custom weight 적용
+* [x] YOLOv4 적용 (https://github.com/Qone2/YOLOv4-Object-Detection-API-Server)
+* [x] v4 용 custom weight 적용
 
 <br/>
 
